@@ -2,26 +2,19 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env.dev') });
 
-const express = require('express');
 const mongoose = require('mongoose');
+const express = require('express');
 const app = express();
 const router = require('./router');
 
-// mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI);
 
-// app.post('/cat', (req, res) => {
-//   const {} = req.body;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-//   const Cat = mongoose.model('Cat', { name: String });
-//   const kitty = new Cat({ name: 'Zildjian' });
-//   kitty.save().then(() => console.log('meow'));
-
-//   res.send();
-// });
-
-// app.get('/health-check', (req, res) => {
-//   res.send('hello world');
-// });
+app.get('/health-check', (req, res) => {
+  res.send('hello world');
+});
 
 router('/v3', app);
 
