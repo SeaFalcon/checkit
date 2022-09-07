@@ -1,27 +1,28 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.join(__dirname, '.env.dev') });
+
 const express = require('express');
-const app = express();
-
 const mongoose = require('mongoose');
-mongoose.connect(
-  'mongodb://root:1111@localhost:27017/numble-checkit?authSource=admin'
-);
+const app = express();
+const router = require('./router');
 
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
+// mongoose.connect(process.env.MONGO_URI);
 
-app.get('/health-check', (req, res) => {
-  res.send({ 뭐: '병시나' });
-});
+// app.post('/cat', (req, res) => {
+//   const {} = req.body;
 
-app.post('/cat', (req, res) => {
-  const {} = req.body;
+//   const Cat = mongoose.model('Cat', { name: String });
+//   const kitty = new Cat({ name: 'Zildjian' });
+//   kitty.save().then(() => console.log('meow'));
 
-  const Cat = mongoose.model('Cat', { name: String });
-  const kitty = new Cat({ name: 'Zildjian' });
-  kitty.save().then(() => console.log('meow'));
+//   res.send();
+// });
 
-  res.send();
-});
+// app.get('/health-check', (req, res) => {
+//   res.send('hello world');
+// });
+
+router('/v3', app);
 
 app.listen(3000, () => console.log('listening to 3000....'));
