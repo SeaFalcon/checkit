@@ -2,7 +2,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const { UsersRepository } = require('../model');
 
 module.exports = {
-  async createUser({ email, key, name }) {
+  async signup({ email, key, name }) {
     try {
       const user = await UsersRepository.findOne({ email });
 
@@ -27,6 +27,7 @@ module.exports = {
       return {
         success: false,
         message: err.message,
+        status: 'nok',
       };
     }
   },

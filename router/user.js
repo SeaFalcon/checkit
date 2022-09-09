@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
 
   router.post('/reg', registerUserValidator, async (req, res) => {
-    const user = await userService.createUser(req.body);
+    const user = await userService.signup(req.body);
     res.send(user);
   });
 
