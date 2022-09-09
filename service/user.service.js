@@ -71,7 +71,6 @@ module.exports = {
       };
     }
   },
-
   async withdrawl(user) {
     await UsersRepository.updateOne(
       { _id: user._id },
