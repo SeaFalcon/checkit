@@ -29,4 +29,10 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+UserSchema.pre('save', function (next) {
+  console.log('pre(save)', next, this);
+
+  next();
+});
+
 module.exports = UserSchema;
