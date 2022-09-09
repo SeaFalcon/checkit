@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const saltRounds = 10;
+
 const UserSchema = new mongoose.Schema(
   {
     email: {
@@ -31,7 +33,6 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre('save', function (next) {
-  const saltRounds = 10;
   const user = this;
 
   if (user.isModified('key')) {
@@ -51,5 +52,9 @@ UserSchema.pre('save', function (next) {
     next(); // 바로 save로 넘어감
   }
 });
+
+UserSchema.methods.checkPassword = function (password) {
+  return bcrypt.compareSync(password, this.key);
+};
 
 module.exports = UserSchema;

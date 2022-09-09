@@ -11,8 +11,13 @@ module.exports = function (app) {
   });
 
   router.post('/reg', registerUserValidator, async (req, res) => {
-    const user = await userService.signup(req.body);
-    res.send(user);
+    const result = await userService.signup(req.body);
+    res.status(200).send(result);
+  });
+
+  router.post('/signin', async (req, res) => {
+    const result = await userService.signin(req.body);
+    res.status(200).send(result);
   });
 
   return router;
