@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { boolean } = require('joi');
 
 const saltRounds = 10;
 
@@ -25,6 +26,10 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       description: '사용자의 이름',
+    },
+    isDeleted: {
+      type: Boolean,
+      description: '탈퇴 여부',
     },
   },
   {

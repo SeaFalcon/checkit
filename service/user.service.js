@@ -2,13 +2,21 @@ const { UsersRepository } = require('../model');
 const jwtUtil = require('../utils/jwt.util');
 
 module.exports = {
+  async findById(userId) {
+    const user = await UsersRepository.findById(userId, {
+      email: 1,
+      name: 1,
+      isDeleted: 1,
+    });
+
+    return user;
+  },
   async signup({ email, key, name }) {
     try {
       const user = await UsersRepository.findOne({ email });
 
       if (user) {
         return {
-          success: false,
           status: 'user_duplicate',
         };
       }
@@ -17,15 +25,12 @@ module.exports = {
       const token = jwtUtil.sign(_id.toString());
 
       return {
-        success: true,
         data: { token },
       };
     } catch (err) {
       console.error(err);
 
       return {
-        success: false,
-        message: err.message,
         status: 'nok',
       };
     }
@@ -33,15 +38,20 @@ module.exports = {
   async signin({ email, key }) {
     try {
       const user = await UsersRepository.findOne({ email });
-
       if (!user) {
         return {
           status: 'no_user',
         };
       }
 
-      const passwordCorrent = user.checkPassword(key);
+      if (user.isDeleted) {
+        return {
+          status: 'nok',
+          message: 'withdrawl user',
+        };
+      }
 
+      const passwordCorrent = user.checkPassword(key);
       if (!passwordCorrent) {
         return {
           status: 'nok',
@@ -60,5 +70,16 @@ module.exports = {
         status: 'nok',
       };
     }
+  },
+
+  async withdrawl(user) {
+    await UsersRepository.updateOne(
+      { _id: user._id },
+      { $set: { isDeleted: true } }
+    );
+
+    return {
+      status: 'ok',
+    };
   },
 };

@@ -12,10 +12,9 @@ module.exports = {
     try {
       decoded = jwt.verify(token, secret);
 
-      console.log('jwt decoded', decoded);
-
       return {
         success: true,
+        decoded,
       };
     } catch (err) {
       return {
