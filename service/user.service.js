@@ -1,13 +1,25 @@
+const jsonwebtoken = require('jsonwebtoken');
 const { UsersRepository } = require('../model');
 
 module.exports = {
-  async createUser(createUserDto) {
+  async createUser({ email, key, name }) {
     try {
-      const user = await UsersRepository.create(createUserDto);
+      const user = await UsersRepository.findOne({ email });
+
+      if (user) {
+        return {
+          success: false,
+          status: 'user_duplicate',
+        };
+      }
+
+      const { _id } = await UsersRepository.create({ email, key, name });
 
       return {
         success: true,
-        user,
+        data: {
+          token: jsonwebtoken.sign(_id.toString(), process.env.SECRET_KEY),
+        },
       };
     } catch (err) {
       console.error(err);

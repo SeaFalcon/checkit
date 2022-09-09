@@ -12,10 +12,6 @@ mongoose.connect(process.env.MONGO_URI);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/health-check', (req, res) => {
-  res.send('hello world');
-});
-
 router('/v3', app);
 
 app.listen(3000, () => console.log('listening to 3000....'));
