@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const { UsersRepository } = require('../model');
 const jwtUtil = require('../utils/jwt.util');
 
@@ -28,7 +29,7 @@ module.exports = {
         data: { token },
       };
     } catch (err) {
-      console.error(err);
+      logger.error('[signup]', err);
 
       return {
         status: 'nok',
@@ -64,7 +65,7 @@ module.exports = {
         token: jwtUtil.sign(user._id.toString()),
       };
     } catch (err) {
-      console.error(err);
+      logger.error('[signin]', err);
 
       return {
         status: 'nok',

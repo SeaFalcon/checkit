@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const logger = require('../../../logger');
 
 module.exports = {
   async registerUserValidator(req, res, next) {
@@ -12,7 +13,7 @@ module.exports = {
     try {
       await schema.validateAsync(body);
     } catch (err) {
-      console.error(err);
+      logger.error('[signup dto]', err);
       return res.status(200).send({ status: 'nok', message: err.message });
     }
 
@@ -29,7 +30,7 @@ module.exports = {
     try {
       await schema.validateAsync(body);
     } catch (err) {
-      console.error(err);
+      logger.error('[signin dto]', err);
       return res.status(200).send({ status: 'nok', message: err.message });
     }
 
