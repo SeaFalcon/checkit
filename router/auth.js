@@ -1,9 +1,8 @@
-const express = require('express');
 const { signinUserValidator } = require('../model/schemas/user/user.validator');
 const userService = require('../service/user.service');
-const router = express.Router();
 
-module.exports = function (app) {
+module.exports = function (express) {
+  const router = express.Router();
   router.get('/', (req, res) => {
     res.send('hello auth router!');
   });

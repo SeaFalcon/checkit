@@ -1,12 +1,11 @@
-const express = require('express');
 const authJWT = require('../middlewares/auth.middleware');
 const {
   registerUserValidator,
 } = require('../model/schemas/user/user.validator');
 const userService = require('../service/user.service');
-const router = express.Router();
 
-module.exports = function (app) {
+module.exports = function (express, app) {
+  const router = express.Router();
   router.get('/', (req, res) => {
     res.send('hello user router!');
   });

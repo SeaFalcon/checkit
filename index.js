@@ -43,6 +43,6 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
-router('/v3', app);
+router('/v3', app, express);
 
 app.listen(port, () => logger.info(`Server Start Listening on port ${port}`));
