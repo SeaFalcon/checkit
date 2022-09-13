@@ -2,11 +2,11 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env.dev') });
 
-const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const router = require('./router');
 const logger = require('./logger');
+const { connectWithRetry } = require('./utils/db.util');
 
 const combined =
   ':remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
@@ -16,26 +16,8 @@ const morganFormat = process.env.NODE_ENV !== 'production' ? 'dev' : combined; /
 
 const app = express();
 const port = process.env.PORT || 3000;
-const dbURI = process.env.MONGO_URI || '127.0.0.1:27017';
 
-// mongoose
-//   .connect(process.env.MONGO_URI)
-//   .then(() => console.log('Successfully connected to mongodb'))
-//   .catch((err) => console.error(err));
-
-function connectWithRetry() {
-  return mongoose.connect(dbURI, function (err) {
-    if (err) {
-      logger.error(
-        'Failed to connect to mongo on startup - retrying in 5 sec',
-        err
-      );
-      setTimeout(connectWithRetry, 5000);
-    }
-  });
-}
-
-connectWithRetry();
+connectWithRetry(logger);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
