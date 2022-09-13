@@ -4,10 +4,13 @@ const logger = require('../../../logger');
 module.exports = {
   async registerUserValidator(req, res, next) {
     const body = req.body;
+
+    console.log('registerUserValidator', body);
     const schema = Joi.object().keys({
       email: Joi.string().email().required(),
       key: Joi.string().required(),
       name: Joi.string().required(),
+      type: Joi.not().required()
     });
 
     try {
@@ -25,6 +28,7 @@ module.exports = {
     const schema = Joi.object().keys({
       email: Joi.string().email().required(),
       key: Joi.string().required(),
+      type: Joi.not().required()
     });
 
     try {

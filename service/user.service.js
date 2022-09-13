@@ -60,9 +60,11 @@ module.exports = {
         };
       }
 
+      const token = jwtUtil.sign(user._id.toString());
+
       return {
         status: 'ok',
-        token: jwtUtil.sign(user._id.toString()),
+        data: { token },
       };
     } catch (err) {
       logger.error('[signin]', err);
