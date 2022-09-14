@@ -1,10 +1,15 @@
+const authJWT = require('../middlewares/auth.middleware');
+
 module.exports = function (express) {
   const router = express.Router();
   router.get('/', (req, res) => {
     res.send('hello doctor router!');
   });
 
-  router.get('/list', async (req, res) => {
+  router.get('/list', authJWT, async (req, res) => {
+    const result = doctorService.getDoctorList();
+    res.status(200).send(result);
+
     /* TODO: 
       "doctorList": {
         "url": "/v3/doctor/list",
@@ -49,7 +54,10 @@ module.exports = function (express) {
     */
   });
 
-  router.get('/', async (req, res) => {
+  router.get('/', authJWT, async (req, res) => {
+    const result = doctorService.getDoctor();
+    res.status(200).send(result);
+
     /* TODO:
       "doctor": {
           "url": "/v3/doctor",
