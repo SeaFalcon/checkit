@@ -1,5 +1,6 @@
 const authJWT = require('../middlewares/auth.middleware');
 const stdService = require('../service/std.service');
+const { registerStdValidator } = require('../model/schemas/std/std.validator');
 
 module.exports = function (express) {
   const router = express.Router();
@@ -7,8 +8,8 @@ module.exports = function (express) {
     res.send('hello std router!');
   });
 
-  router.post('/reg', authJWT, async (req, res) => {
-    const result = stdService.regStd(req.body);
+  router.post('/reg', authJWT, registerStdValidator, async (req, res) => {
+    const result = await stdService.regStd(req.body);
     res.status(200).send(result);
 
     /* TODO:

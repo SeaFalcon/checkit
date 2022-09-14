@@ -3,7 +3,7 @@ const { StdsRepository, DoctorsRepository } = require('../model');
 module.exports = {
     async regStd({ doctor_id, address, address_code, store_address }) {
         try {
-            const checkId = DoctorsRepository.findOne({ doctor_id: doctor_id }, { doctor_id: 1 });
+            const checkId = await DoctorsRepository.findOne({ doctor_id: doctor_id }, { doctor_id: 1 });
             if(checkId) {
                 const result = await StdsRepository.create({ doctor_id, address, address_code, store_address });
                 if(result) {

@@ -8,7 +8,7 @@ module.exports = function (express) {
   });
 
   router.get('/list', authJWT, async (req, res) => {
-    const result = doctorService.getDoctorList();
+    const result = await doctorService.getDoctorList();
     res.status(200).send(result);
 
     /* TODO: 
@@ -56,7 +56,7 @@ module.exports = function (express) {
   });
 
   router.get('/', authJWT, async (req, res) => {
-    const result = doctorService.getDoctor();
+    const result = await doctorService.getDoctor(req.body);
     res.status(200).send(result);
 
     /* TODO:
