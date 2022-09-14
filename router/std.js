@@ -1,10 +1,16 @@
+const authJWT = require('../middlewares/auth.middleware');
+const stdService = require('../service/std.service');
+
 module.exports = function (express) {
   const router = express.Router();
   router.get('/', (req, res) => {
     res.send('hello std router!');
   });
 
-  router.post('/reg', async (req, res) => {
+  router.post('/reg', authJWT, async (req, res) => {
+    const result = stdService.regStd(req.body);
+    res.status(200).send(result);
+
     /* TODO:
       "register": {
           "url": "/v3/std/reg",

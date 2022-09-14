@@ -1,4 +1,5 @@
 const authJWT = require('../middlewares/auth.middleware');
+const doctorService = require('../service/doctor.service');
 
 module.exports = function (express) {
   const router = express.Router();
